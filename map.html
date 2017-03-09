@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Neighborhood Map</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+     <script  src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <script src="js/ap.js"></script>
+    <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxNyOVSFDTgebZvINuFVgjh7YYAgDLmCE&callback=initMap">
+  </script>
+
+    <script src="js/lib/knockout-3.2.0.js"></script>
+  </head>
+  <body>
+    <nav id="drawer">
+      <div class="container">
+        <div class="form-ui">
+          <form data-bind="submit: filterSubmit">
+            <input data-bind="value: filterWord" placeholder="filter">
+            <button class="button" type="submit"><span>filter</span></button>
+          </form>
+        </div>
+        <div class="list-ui">
+          <button class="button" data-bind="click: toggleLocationListIsOpen, text: toggleLocationListIsOpenButtonText"></button>
+          <ul class="listing" data-bind="foreach: markers, visible: toggleLocationListIsOpenStatus">
+            <li class="listing-item" data-bind="visible: listVisible, click: $parent.setCurrent">
+              <div data-bind="text: name"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="main-page">
+      <a id="menu">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"></path>
+      </svg>
+      </a>
+      <div id="map-canvas"></div>
+    </main>
+  </body>
+</html>
