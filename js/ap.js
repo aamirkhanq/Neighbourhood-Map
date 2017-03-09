@@ -35,6 +35,7 @@ function initMap(){
 }
 
 var MapViewModel = function() {
+
   var self = this;
 
   self.center = new google.maps.LatLng(initLat, initLng);
@@ -46,7 +47,7 @@ var MapViewModel = function() {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     // Create a new google maps object and attaching it to the DOM with id='map-canvas'
-    self.map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+    self.map = new google.maps.Map(document.getElementById('map-canvas'),myOptions);
 
     self.markers = ko.observableArray([]);
     // Creates a marker and pushes into self.markers array
@@ -104,14 +105,10 @@ var MapViewModel = function() {
 
   self.filterWord = ko.observable("");
   self.filterWordSearch = ko.computed(function() {
-
-    return self.filterWord()
-      .toLowerCase()
-      .split(' ');
-  });
-  self.filterSubmit = function() {
-    self.filterWordSearch()
-      .forEach(function(word) {
+    self.filterWord.subscribe(function(v){
+      //console.log(v.toLowerCase().split(' '));
+      var t = v.toLowerCase().split(' ');
+      t.forEach(function(word) {
         self.markers()
           .forEach(function(marker) {
             var name = marker.name.toLowerCase();
@@ -119,9 +116,25 @@ var MapViewModel = function() {
             ((name.indexOf(word) === -1)) ? marker.listVisible(false): marker.listVisible(true);
           });
       });
+    });
+    /*console.log(k);
+      .toLowerCase()
+      .split(' ');*/
+  });
+  self.filterSubmit = function() {
+    self.filterWordSearch();
+    /*self.filterWordSearch()
+      .forEach(function(word) {
+        self.markers()
+          .forEach(function(marker) {
+            var name = marker.name.toLowerCase();
+            ((name.indexOf(word) === -1)) ? marker.setMap(null): marker.setMap(self.map);
+            ((name.indexOf(word) === -1)) ? marker.listVisible(false): marker.listVisible(true);
+          });
+      });*/
     self.filterWord("");
   };
-
+  self.filterSubmit()
   self.init();
 };
 
