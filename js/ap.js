@@ -25,7 +25,10 @@ var initLat = 26.881684;
 var initLng = 80.946794;
 var initZoom = 10;
 
-
+function googleError(){
+    alert("Cannot connect to maps. Check your internet connection.");
+    //console.log("Cannot connect to maps. Check your internet connection.");
+}
 
 function initMap(){
   $(ko.applyBindings(new MapViewModel()));
