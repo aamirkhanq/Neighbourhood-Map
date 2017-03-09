@@ -32,11 +32,6 @@ function initMap(){
 }
 
 var MapViewModel = function() {
-  menu.addEventListener('click', function(e) {
-    drawer.classList.toggle('open');
-    e.stopPropagation();
-  });
-
   var self = this;
 
   self.center = new google.maps.LatLng(initLat, initLng);
