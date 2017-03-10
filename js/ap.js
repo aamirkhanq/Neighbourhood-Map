@@ -15,7 +15,7 @@ var places = [{
   lat: 26.847906,
   lng: 80.975800
 }, {
-  name: "Tunday Kebabi",
+  name: "Tunde Ke Kabab",
   lat: 26.881684,
   lng: 80.946794
 }];
@@ -60,8 +60,19 @@ var MapViewModel = function() {
         name: data.name,
       });
 
-
-      var contentString = '<div><h1>' + data.name + '</h1>';
+      var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+data.name+'&format=json&callback=wikiCallback';
+      //var contentString = '<div><h1>' + data.name + '</h1>';
+      /*$.ajax({
+        url: wikiUrl,
+        dataType: "jsonp",
+        success: function(response){
+          var articleList = response[1];
+          for (var i=0; i<articleList.length; i++){
+            articleString = articleString[i];
+            var contentString = '<div><h1>' + articleString + '</h1>';
+          }
+        }
+      });*/
       self.infowindow = new google.maps.InfoWindow();
       google.maps.event.addListener(marker, 'click', function() {
         self.map.panTo(marker.getPosition());
@@ -70,7 +81,21 @@ var MapViewModel = function() {
         setTimeout(function() {
           marker.setAnimation(null);
         }, 750);
-        self.infowindow.setContent(contentString);
+        $.ajax({
+        url: wikiUrl,
+        dataType: "jsonp",
+        success: function(response){
+          var articleList = response[1];
+          console.log(articleList);
+          for (var i=0; i<articleList.length; i++){
+            var articleString = articleList[i];
+            var url = 'http://en.wikipedia.org/wiki/'+articleString;
+            var contentString = '<h3>Link to Wikipedia Article</h3><a href="' + url + '"><div><b>' + articleString + '</b></a>';
+            self.infowindow.setContent(contentString);
+          }
+        }
+        });
+        //self.infowindow.setContent(contentString);
         self.infowindow.open(self.map, this);
       });
 
