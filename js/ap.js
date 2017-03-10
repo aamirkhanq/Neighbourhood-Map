@@ -94,6 +94,8 @@ var MapViewModel = function() {
             self.infowindow.setContent(contentString);
           }
         }
+        }).fail(function(){
+          alert("Cannot update wikipedia! Check your internet connection.");
         });
         //self.infowindow.setContent(contentString);
         self.infowindow.open(self.map, this);
